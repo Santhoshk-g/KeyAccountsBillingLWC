@@ -1,0 +1,8 @@
+THIS .field-title{
+    font-weight: bold;
+}
+
+/* Custom CSS class to increase text size */
+.custom-text-size {
+    font-size: 14px; /* Adjust the size as needed */
+}

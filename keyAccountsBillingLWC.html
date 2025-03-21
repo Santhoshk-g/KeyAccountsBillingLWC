@@ -1,0 +1,111 @@
+<template>
+    
+    <lightning-card  title="Key Account Billings">
+
+        <lightning-layout>
+            <lightning-layout-item padding="around-small">
+                <div class="header-column">
+                    <lightning-input label="From Date" 
+                    required="true"
+                    type="date"
+                    value={fromdate}
+                    onchange={fromDateChange}>
+                  </lightning-input>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small">
+                <div class="header-column">
+                    <lightning-input label="To Date" 
+                    required="true"
+                    type="date"
+                    value={todate}
+                    onchange={toDateChange}>
+                  </lightning-input>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small">
+                <div class="header-column">
+                    <lightning-checkbox-group name="Account Type"
+                    label="Account Type"
+                    options={Accountoptions}
+                    value={value}
+                    onchange={AccounthandleChange}>
+                </lightning-checkbox-group>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small">
+                <div class="header-column">
+                <lightning-input class="slds-p-around_xxx-small" type="checkbox" label="Platinum Customer" onchange={PlatinumCustomerhandler} checked={checkvalue}></lightning-input>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small">
+                <div class="header-column">
+                    <lightning-button variant="brand" label="Submit" title="Submit" onclick={handleClicksubmit} class="slds-m-left_x-small"></lightning-button>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small">
+                <div class="header-column">
+                    <lightning-button variant="success" label="Export" title="Download Excel" onclick={exportContactData} class="slds-m-left_x-small"></lightning-button>
+                </div>
+            </lightning-layout-item>
+
+            
+        </lightning-layout>
+
+        <div class="slds-text-color_destructive" style="margin-left: 3%">
+            <b>{errorMsg}</b>
+        </div>   
+
+        <template if:true={loaded}>
+          <lightning-spinner alternative-text="Loading"></lightning-spinner>
+  </template>  
+
+        <template if:true={Inspire}>
+            <div class="slds-clearfix">
+                <div class="slds-float_left">
+                    <p class=" custom-text-size" style="background-color: violet; font-weight:bold; font-size: 14px;">Total Records: {total}</p>
+                </div>
+            </div>
+            
+            
+
+                <div class="slds-scrollable" style="height:30%;width:100%">
+                
+                <table class=" slds-table ">
+                    <thead>
+                        <tr>
+                            <template for:each={columns} for:item="col">
+                                <th class="field-title"  key={col}>{col}</th>
+                            </template>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={recordsToDisplay} for:item="row">
+                            <tr key={row.id}>
+                                <td>{row.Region}</td>
+                                <td>{row.SalesArea}</td>
+                                <td>{row.KeyAccount}</td>
+                                <td>{row.OpportunityName}</td>
+                                <td>{row.ProjectCode}</td>
+                                <td>{row.Qty}</td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="slds-align_absolute-center" style="height:5rem">
+                <lightning-button disabled={bDisableFirst} icon-name="utility:left" variant="brand-outline" label="Previous" alternative-text="Previous" onclick={previousPage}></lightning-button>
+                     &nbsp;&nbsp;
+                     <span class="slds-badge">Showing {pageNumber} &nbsp;of&nbsp; {totalPages} &nbsp;&nbsp;Pages</span>
+                     
+                     <lightning-button disabled={bDisableLast} icon-name="utility:right" variant="brand-outline" label="Next" alternative-text="Next" onclick={nextPage} class="slds-p-horizontal_x-small" icon-position="right"></lightning-button>
+            </div>
+
+        </template>                   
+    
+        
+     </lightning-card>
+
+    
+</template>
